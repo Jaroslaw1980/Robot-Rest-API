@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.1 (Python 3.9.7 on win32)" generated="20230306 10:11:18.113" rpa="false" schemaversion="3">
+<suite id="s1" name="Activities E2E" source="C:\Projects\Robot Rest API\Tests\Activities_E2E.robot">
+<test id="s1-t1" name="Test E2E" line="21">
+<kw name="Create Session" library="RequestsLibrary" type="SETUP">
+<arg>e2e</arg>
+<arg>${Base_url}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230306 10:11:18.291" level="INFO">Creating Session using : alias=e2e, url=https://fakerestapi.azurewebsites.net, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230306 10:11:18.290" endtime="20230306 10:11:18.291"/>
+</kw>
+<kw name="Json Payload" library="Swagger">
+<var>${activity_payload}</var>
+<arg>${activities json path}</arg>
+<kw name="Load Json From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${jsonpath}</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20230306 10:11:18.292" level="INFO">${json} = {'id': 15, 'title': 'Dune', 'dueDate': '2023-03-04T19:07:26.906Z', 'completed': True}</msg>
+<status status="PASS" starttime="20230306 10:11:18.292" endtime="20230306 10:11:18.292"/>
+</kw>
+<msg timestamp="20230306 10:11:18.293" level="INFO">${activity_payload} = {'id': 15, 'title': 'Dune', 'dueDate': '2023-03-04T19:07:26.906Z', 'completed': True}</msg>
+<status status="PASS" starttime="20230306 10:11:18.292" endtime="20230306 10:11:18.293"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${post_response}</var>
+<arg>e2e</arg>
+<arg>${activities endpoint}</arg>
+<arg>json=${activity_payload}</arg>
+<arg>headers=&amp;{activities header}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20230306 10:11:18.495" level="INFO">POST Request : url=https://fakerestapi.azurewebsites.net/api/v1/Activities 
+ path_url=/api/v1/Activities 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json; v=1.0', 'Content-Length': '85'} 
+ body=b'{"id": 15, "title": "Dune", "dueDate": "2023-03-04T19:07:26.906Z", "completed": true}' 
+ </msg>
+<msg timestamp="20230306 10:11:18.495" level="INFO">POST Response : url=https://fakerestapi.azurewebsites.net/api/v1/Activities 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Mon, 06 Mar 2023 09:11:18 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":15,"title":"Dune","dueDate":"2023-03-04T19:07:26.906Z","completed":true} 
+ </msg>
+<msg timestamp="20230306 10:11:18.496" level="INFO">C:\Users\jnazar\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py:1043: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg timestamp="20230306 10:11:18.496" level="INFO">${post_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230306 10:11:18.293" endtime="20230306 10:11:18.496"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${post_response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230306 10:11:18.498" level="INFO">{'id': 15, 'title': 'Dune', 'dueDate': '2023-03-04T19:07:26.906Z', 'completed': True}</msg>
+<status status="PASS" starttime="20230306 10:11:18.497" endtime="20230306 10:11:18.498"/>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<var>&amp;{post_dict}</var>
+<arg>${post_response.json()}</arg>
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<msg timestamp="20230306 10:11:18.499" level="INFO">&amp;{post_dict} = { id=15 | title=Dune | dueDate=2023-03-04T19:07:26.906Z | completed=True }</msg>
+<status status="PASS" starttime="20230306 10:11:18.498" endtime="20230306 10:11:18.499"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${ID}</var>
+<arg>${post_dict}</arg>
+<arg>id</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230306 10:11:18.500" level="INFO">${ID} = 15</msg>
+<status status="PASS" starttime="20230306 10:11:18.500" endtime="20230306 10:11:18.500"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${ID}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230306 10:11:18.501" level="INFO">15</msg>
+<status status="PASS" starttime="20230306 10:11:18.500" endtime="20230306 10:11:18.501"/>
+</kw>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20230306 10:11:18.501" endtime="20230306 10:11:18.501"/>
+</kw>
+<kw name="Payload ID" library="Swagger">
+<var>${payload id}</var>
+<arg>${ID}</arg>
+<kw name="Catenate" library="BuiltIn">
+<var>${Payload ID}</var>
+<arg>SEPARATOR=</arg>
+<arg>/</arg>
+<arg>${ID}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230306 10:11:18.502" level="INFO">${Payload ID} = /15</msg>
+<status status="PASS" starttime="20230306 10:11:18.502" endtime="20230306 10:11:18.502"/>
+</kw>
+<msg timestamp="20230306 10:11:18.502" level="INFO">${payload id} = /15</msg>
+<status status="PASS" starttime="20230306 10:11:18.502" endtime="20230306 10:11:18.502"/>
+</kw>
+<kw name="Create endpoint with ID" library="Swagger">
+<var>${get with id endpoint}</var>
+<arg>${activities endpoint}</arg>
+<arg>${payload id}</arg>
+<kw name="Convert To String" library="BuiltIn">
+<var>${endpoint string}</var>
+<arg>${endpoint}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20230306 10:11:18.504" level="INFO">${endpoint string} = /api/v1/Activities</msg>
+<status status="PASS" starttime="20230306 10:11:18.503" endtime="20230306 10:11:18.504"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${get with id endpoint}</var>
+<arg>SEPARATOR=</arg>
+<arg>${endpoint string}</arg>
+<arg>${ID}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230306 10:11:18.504" level="INFO">${get with id endpoint} = /api/v1/Activities/15</msg>
+<status status="PASS" starttime="20230306 10:11:18.504" endtime="20230306 10:11:18.504"/>
+</kw>
+<msg timestamp="20230306 10:11:18.504" level="INFO">${get with id endpoint} = /api/v1/Activities/15</msg>
+<status status="PASS" starttime="20230306 10:11:18.503" endtime="20230306 10:11:18.504"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${get_response}</var>
+<arg>e2e</arg>
+<arg>${get with id endpoint}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20230306 10:11:18.545" level="INFO">GET Request : url=https://fakerestapi.azurewebsites.net/api/v1/Activities/15 
+ path_url=/api/v1/Activities/15 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20230306 10:11:18.545" level="INFO">GET Response : url=https://fakerestapi.azurewebsites.net/api/v1/Activities/15 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8; v=1.0', 'Date': 'Mon, 06 Mar 2023 09:11:18 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'api-supported-versions': '1.0'} 
+ body={"id":15,"title":"Activity 15","dueDate":"2023-03-07T00:11:18.5205627+00:00","completed":false} 
+ </msg>
+<msg timestamp="20230306 10:11:18.545" level="INFO">C:\Users\jnazar\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py:1043: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg timestamp="20230306 10:11:18.546" level="INFO">${get_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230306 10:11:18.505" endtime="20230306 10:11:18.546"/>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<var>&amp;{get_dict}</var>
+<arg>${get_response.json()}</arg>
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<msg timestamp="20230306 10:11:18.548" level="INFO">&amp;{get_dict} = { id=15 | title=Activity 15 | dueDate=2023-03-07T00:11:18.5205627+00:00 | completed=False }</msg>
+<status status="PASS" starttime="20230306 10:11:18.548" endtime="20230306 10:11:18.548"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${title}</var>
+<arg>${get_dict}</arg>
+<arg>title</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230306 10:11:18.549" level="INFO">${title} = Activity 15</msg>
+<status status="PASS" starttime="20230306 10:11:18.549" endtime="20230306 10:11:18.549"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${title}</arg>
+<arg>Activity 15</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20230306 10:11:18.550" endtime="20230306 10:11:18.550"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230306 10:11:18.551" level="INFO">Activity 15</msg>
+<status status="PASS" starttime="20230306 10:11:18.550" endtime="20230306 10:11:18.551"/>
+</kw>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20230306 10:11:18.552" endtime="20230306 10:11:18.552"/>
+</kw>
+<kw name="Payload ID" library="Swagger">
+<var>${payload id}</var>
+<arg>${ID}</arg>
+<kw name="Catenate" library="BuiltIn">
+<var>${Payload ID}</var>
+<arg>SEPARATOR=</arg>
+<arg>/</arg>
+<arg>${ID}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230306 10:11:18.553" level="INFO">${Payload ID} = /15</msg>
+<status status="PASS" starttime="20230306 10:11:18.553" endtime="20230306 10:11:18.553"/>
+</kw>
+<msg timestamp="20230306 10:11:18.553" level="INFO">${payload id} = /15</msg>
+<status status="PASS" starttime="20230306 10:11:18.553" endtime="20230306 10:11:18.553"/>
+</kw>
+<kw name="Create endpoint with ID" library="Swagger">
+<var>${get with id endpoint}</var>
+<arg>${activities endpoint}</arg>
+<arg>${payload id}</arg>
+<kw name="Convert To String" library="BuiltIn">
+<var>${endpoint string}</var>
+<arg>${endpoint}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20230306 10:11:18.555" level="INFO">${endpoint string} = /api/v1/Activities</msg>
+<status status="PASS" starttime="20230306 10:11:18.554" endtime="20230306 10:11:18.555"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${get with id endpoint}</var>
+<arg>SEPARATOR=</arg>
+<arg>${endpoint string}</arg>
+<arg>${ID}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230306 10:11:18.555" level="INFO">${get with id endpoint} = /api/v1/Activities/15</msg>
+<status status="PASS" starttime="20230306 10:11:18.555" endtime="20230306 10:11:18.555"/>
+</kw>
+<msg timestamp="20230306 10:11:18.555" level="INFO">${get with id endpoint} = /api/v1/Activities/15</msg>
+<status status="PASS" starttime="20230306 10:11:18.554" endtime="20230306 10:11:18.555"/>
+</kw>
+<kw name="DELETE On Session" library="RequestsLibrary">
+<var>${delete_response}</var>
+<arg>e2e</arg>
+<arg>${get with id endpoint}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<msg timestamp="20230306 10:11:18.589" level="INFO">DELETE Request : url=https://fakerestapi.azurewebsites.net/api/v1/Activities/15 
+ path_url=/api/v1/Activities/15 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20230306 10:11:18.589" level="INFO">DELETE Response : url=https://fakerestapi.azurewebsites.net/api/v1/Activities/15 
+ status=200, reason=OK 
+ headers={'Content-Length': '0', 'Date': 'Mon, 06 Mar 2023 09:11:18 GMT', 'Server': 'Kestrel', 'api-supported-versions': '1.0'} 
+ body=None 
+ </msg>
+<msg timestamp="20230306 10:11:18.589" level="INFO">C:\Users\jnazar\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py:1043: InsecureRequestWarning: Unverified HTTPS request is being made to host 'fakerestapi.azurewebsites.net'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg timestamp="20230306 10:11:18.590" level="INFO">${delete_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230306 10:11:18.556" endtime="20230306 10:11:18.590"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${delete_response}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230306 10:11:18.591" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230306 10:11:18.591" endtime="20230306 10:11:18.591"/>
+</kw>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20230306 10:11:18.592" endtime="20230306 10:11:18.592"/>
+</kw>
+<status status="PASS" starttime="20230306 10:11:18.290" endtime="20230306 10:11:18.592"/>
+</test>
+<status status="PASS" starttime="20230306 10:11:18.116" endtime="20230306 10:11:18.593"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Activities E2E">Activities E2E</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
